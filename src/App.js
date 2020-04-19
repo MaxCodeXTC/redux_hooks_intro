@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
 
-function App() {
+import { increment, decrement, add, subtract, storeResult, deleteResult } from './actions';
+
+const App = () => {
+  const counter = useSelector((state) => state.counter.counter);
+  const results = useSelector((state) => state.result.results);
+  const dispatch = useDispatch();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="CounterOutput">Current Counter: {counter}</div>
+      <button type="button" onClick={() => dispatch(increment())}>Increment</button>
+      <button type="button" onClick={() => dispatch(decrement())}>Decrement</button>
+      <button type="button" onClick={() => dispatch(add(5))}>Add 5</button>
+      <button type="button" onClick={() => dispatch(subtract(5))}>Subtract 5</button>
+      <hr />
+      <button type="button" onClick={() => dispatch(storeResult(counter))}>Store results</button>
+      {results.map((result, i) => <span key={i} onClick={() => dispatch(deleteResult(result.id))}>{result.value}</span>)}
     </div>
   );
-}
+};
 
 export default App;
